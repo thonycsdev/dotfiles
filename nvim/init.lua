@@ -145,7 +145,7 @@ vim.opt.splitbelow = true
 -- Sets how neovim will display certain whitespace characters in the editor.
 --  See `:help 'list'`
 --  and `:help 'listchars'`
-vim.opt.list = true
+vim.opt.list = false
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
 -- Preview substitutions live, as you type!
@@ -616,7 +616,7 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
+        ts_ls = {},
         --
 
         lua_ls = {
@@ -649,6 +649,7 @@ require('lazy').setup({
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
         'prettierd',
+        'eslint_d',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -782,7 +783,7 @@ require('lazy').setup({
 
           -- If you prefer more traditional completion keymaps,
           -- you can uncomment the following lines
-          --['<CR>'] = cmp.mapping.confirm { select = true },
+          ['<CR>'] = cmp.mapping.confirm { select = true },
           --['<Tab>'] = cmp.mapping.select_next_item(),
           --['<S-Tab>'] = cmp.mapping.select_prev_item(),
 
@@ -828,64 +829,16 @@ require('lazy').setup({
   },
 
   {
-    'rose-pine/neovim',
-    name = 'rose-pine',
+    'folke/tokyonight.nvim',
     lazy = false,
     priority = 1000,
-    opts = function()
-      require('rose-pine').setup {
-        variant = 'main', -- Alternativas: 'main', 'moon', 'dawn'. Escolha a mais próxima do estilo que você deseja.
-        dark_variant = 'main', -- Similar ao estilo 'moon' do tokyonight
-        disable_background = true, -- Ativa a transparência
-        disable_float_background = true, -- Transparência para janelas flutuantes
-        bold_vert_split = false, -- Remove borda vertical entre divisões
-        disable_italics = false, -- Habilita itálico para certos elementos
-        groups = {
-          background = 'none', -- Remove o fundo da janela principal
-          panel = 'none', -- Remove o fundo das sidebars e painéis
-        },
-        highlight_groups = {
-          Normal = { fg = '#ffffff', bg = 'NONE' }, -- Cor de primeiro plano branca e fundo transparente
-          NormalFloat = { bg = 'NONE' }, -- Janelas flutuantes transparentes
-          Comment = { italic = true }, -- Comentários em itálico
-          Keyword = { italic = true }, -- Palavras-chave em itálico
-        },
-      }
-
-      vim.cmd [[colorscheme rose-pine]]
+    init = function()
+      vim.cmd.colorscheme 'tokyonight'
     end,
+    opts = {
+      transparent = true,
+    },
   },
-
-  -- {
-  --   'folke/tokyonight.nvim',
-  --   lazy = false,
-  --   priority = 1000,
-  --   opts = function()
-  --     require('tokyonight').setup {
-  --       style = 'moon',
-  --       transparent = true, -- Ativa a transparência
-  --       terminal_colors = true,
-  --       styles = {
-  --         comments = { italic = true },
-  --         keywords = { italic = true },
-  --         functions = {},
-  --         variables = {},
-  --         sidebars = 'transparent', -- Define a transparência também para sidebars
-  --         floats = 'transparent', -- Define a transparência para janelas flutuantes
-  --       },
-  --       on_colors = function(colors)
-  --         colors.fg = '#ffffff' -- Altera a cor de primeiro plano para branco
-  --       end,
-  --       on_highlights = function(highlights, colors)
-  --         highlights.Normal = { fg = colors.fg, bg = 'NONE' } -- Remove a cor de fundo
-  --         highlights.NormalFloat = { bg = 'NONE' } -- Transforma janelas flutuantes em transparentes
-  --       end,
-  --       cache = true,
-  --     }
-  --
-  --     vim.cmd [[colorscheme tokyonight-moon]]
-  --   end,
-  -- },
 
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
@@ -962,11 +915,11 @@ require('lazy').setup({
   --  Here are some example plugins that I've included in the Kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  -- require 'kickstart.plugins.debug',
-  require 'kickstart.plugins.indent_line',
+  require 'kickstart.plugins.debug',
+  -- require 'kickstart.plugins.indent_line',
   require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',
-  -- require 'kickstart.plugins.neo-tree',
+  require 'kickstart.plugins.neo-tree',
   --  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
@@ -975,9 +928,9 @@ require('lazy').setup({
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
   -- { import = 'custom.plugins' },
-  --{ import = 'custom.plugins.barbar' },
+  { import = 'custom.plugins.barbar' },
   { import = 'custom.plugins.vim-be-good' },
-  { import = 'custom.plugins.none-ls' },
+  --  { import = 'custom.plugins.none-ls' },
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
