@@ -930,6 +930,7 @@ require('lazy').setup({
   -- { import = 'custom.plugins' },
   { import = 'custom.plugins.barbar' },
   { import = 'custom.plugins.vim-be-good' },
+  { import = 'custom.plugins.copilot' },
   --  { import = 'custom.plugins.none-ls' },
 }, {
   ui = {
